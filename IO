@@ -1,0 +1,92 @@
+package io;
+
+import java.util.Scanner;
+
+import file.CFile;
+
+import java.lang.Math;
+import math.Calculation;
+import static java.lang.Math.toIntExact;
+
+public class MainIO {
+
+	private int mFirstValue;
+	private int mSecondValue;
+	
+	public static void main(String[] args) {
+		
+		Scanner sc = new Scanner(System.in);
+		System.out.println("Geben Sie die erste Zahl ein: ");
+		long lFirstValue = sc.nextLong();
+		sc.nextLine();
+		System.out.println("Geben Sie die zweite Zahl ein: ");
+		long lSecondValue = sc.nextLong();
+		sc.nextLine();
+		
+		Calculation calc = new Calculation();
+		CFile file = new CFile();
+		
+		//1.1.1
+		
+		long phiOfN = 0;
+		if ((calc.isInRange(lFirstValue) && calc.isInRange(lSecondValue)) 
+				&& (calc.calculateGGT(lFirstValue, lSecondValue) == 1)) {
+			
+			//phiOfN = calc.calculatePhiFunction(lFirstValue * lSecondValue);
+			
+		}
+		System.out.println("Geben Sie nun den zu verschlüsselnden Text ein: ");
+		String lPlainText = sc.nextLine();
+		
+		file.setPath(file.getFileDirectory(), file.getFileName());
+		
+		file.write(file.getPath(), "Phi of n: " + Integer.toString(toIntExact(phiOfN)) + ", " + lPlainText);
+		
+		//1.1.2
+		
+		System.out.println("Geben Sie jetzt den öffentlichen Exponenten 'e' an. \n"
+				+ "Beachten Sie: 'e' muss größer als 1 sein und maximal " + Integer.toString(toIntExact(phiOfN)) + " groß sein. \n"
+				+ "Außerdem muss ggT(e,phi(n)) = 1 gelten. \n");
+		long lPublicKey = sc.nextLong();
+		
+		sc.close();
+	}
+
+	public int getFirstValue() {
+		return mFirstValue;
+	}
+
+	public void setFirstValue(int aFirstValue) {
+		this.mFirstValue = aFirstValue;
+	}
+
+	public int getSecondValue() {
+		return mSecondValue;
+	}
+
+	public void setSecondValue(int aSecondValue) {
+		this.mSecondValue = aSecondValue;
+	}
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
