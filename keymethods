@@ -1,0 +1,47 @@
+public int[] generateKeys(BigInteger aPrimeNumber, BigInteger anotherPrimeNumber)
+	{
+		//Primzahl ggf. nochmal checken
+		
+		int[] lKeys = new int[3];
+		BigInteger lRsaModul = aPrimeNumber.multiply(anotherPrimeNumber);
+		
+		BigInteger lPhiofN = (aPrimeNumber.subtract(BigInteger.valueOf(1))).multiply((anotherPrimeNumber.subtract(BigInteger.valueOf(1))));
+		
+		int lPhiofNInt = lPhiofN.intValue();
+		
+		int lEnd = lPhiofN.divide(BigInteger.valueOf(2)).intValue();
+		
+		int lPublicKey = 0;
+		int lPrivateKey = 0;
+		
+		for (int iterator = 2; iterator < lEnd; iterator++)
+		{
+			if (calculateGGT(iterator, lPhiofNInt) == 1)
+			{
+				lPublicKey = iterator;
+				iterator = lPhiofNInt;
+			}
+		}
+		
+		lPrivateKey = modInverse(lPublicKey, lPhiofNInt);
+		
+		lKeys[0] = lPrivateKey;
+		lKeys[1] = lPublicKey;
+		lKeys[2] = lPhiofNInt;
+		
+		return lKeys;
+	}
+  
+  private int modInverse(int aNumber, int aMod) 
+	{
+		aNumber =  aNumber % aMod;
+		
+		for (int iterator = 1; iterator < aMod; iterator++)
+		{
+			if ((aNumber * iterator) % aMod == 1)
+			{
+				return iterator;
+			}
+		}
+		return 1;
+	}
