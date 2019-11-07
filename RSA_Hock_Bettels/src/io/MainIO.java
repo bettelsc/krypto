@@ -37,24 +37,27 @@ public class MainIO {
 //		}
 		
 		if(calc.calculateGGT(lFirstValue, lSecondValue).compareTo(BigInteger.valueOf(1)) == 0) {
-
-//			BigInteger n = lFirstValue.multiply(lSecondValue);
-//			System.out.println(calc.calculatePhiFunction(n));
 			
 			if(calc.isPrime(lFirstValue, 10) && calc.isPrime(lSecondValue, 10)) {
 				BigInteger n = lFirstValue.multiply(lSecondValue);
 				BigInteger phiofN = calc.PhiforDummies(lFirstValue, lSecondValue);
+				System.out.println(phiofN);
 				
 				System.out.println("Geben Sie nun den zu verschlüsselnden Text ein: ");
 				String lPlainText = sc.nextLine();
 				
+				BigInteger[] keyList = calc.generateKeys(lFirstValue, lSecondValue);
+				
 				Encode enc = new Encode();
-				BigInteger[] cipher = enc.encodeMessage(lPlainText, BigInteger.valueOf(23), BigInteger.valueOf(143));
+				
+				BigInteger[] cipher = enc.encodeMessage(lPlainText, keyList[0], n);
+				
 				for(int i = 0; i < cipher.length;i++) {
 					System.out.print(cipher[i]+" ");
 				}
-				//Richtige Eingabe-Werte
-				//BigInteger[] cipher = enc.encodeMessage(lPlainText, e, n);
+				
+				String decryptedMessage = enc.decodeMessage(cipher,keyList[1], n);
+				System.out.println("\nEntschlüsselt: " + decryptedMessage);
 			}
 		}
 		sc.close();

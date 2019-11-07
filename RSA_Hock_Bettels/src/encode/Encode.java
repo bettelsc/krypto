@@ -5,7 +5,7 @@ import java.math.BigInteger;
 public class Encode {
 
 	//Vordefiniertes Alphabet.
-	private static String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789 ";
+	private static String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+ ";
 	static private char[] alphabetArray = alphabet.toCharArray();
 	
 	public BigInteger[] encodeMessage(String message, BigInteger e, BigInteger mod) {
@@ -57,7 +57,7 @@ public class Encode {
 	public static void main(String[] args) {
 		Encode encode = new Encode();
 		//Verschlüsseln der Nachricht mit dem Öffentlichen Schlüssel e.
-		BigInteger[] cipher = encode.encodeMessage("Test 123",BigInteger.valueOf(23),BigInteger.valueOf(143));
+		BigInteger[] cipher = encode.encodeMessage("Hallo undso",BigInteger.valueOf(23),BigInteger.valueOf(143));
 		
 		//Ausgabe der Chiffre, indem die BigInteger-Werte Modulo Alphabet-Größe gesetzt werden. Lediglich als Test
 		BigInteger[] testValue = cipher.clone();
