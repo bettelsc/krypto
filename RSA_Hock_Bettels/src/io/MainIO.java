@@ -1,6 +1,9 @@
 package io;
 
 import java.util.Scanner;
+
+import attack.FermatFactorization;
+
 import java.math.BigInteger;
 
 import math.Calculation;
@@ -47,6 +50,11 @@ public class MainIO {
 				String lPlainText = sc.nextLine();
 				
 				BigInteger[] keyList = calc.generateKeys(lFirstValue, lSecondValue);
+				System.out.println(keyList[0] + " " + keyList[1]);
+				
+				FermatFactorization hackerConsti = new FermatFactorization();
+				BigInteger[] keys = hackerConsti.getKeys(n);
+				System.out.println(keys[0] + " " + keys[1]);
 				
 				Encode enc = new Encode();
 				

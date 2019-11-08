@@ -38,15 +38,16 @@ public class Calculation {
 		return Phi;
 	}
 
-	// Hat BigInteger integriert.
+	// PROBLEM
 	private BigInteger aPowbModc(BigInteger a, BigInteger b, BigInteger c) {
 
-		BigInteger result = BigInteger.valueOf(1);
-		for (BigInteger iterator = b; iterator.compareTo(BigInteger.valueOf(0)) == 0; iterator
-				.subtract(BigInteger.ONE)) {
-			result = result.multiply(a);
-			result = result.mod(c);
-		}
+		BigInteger result = a;
+		result = result.pow(b.intValue());
+//		result = result.mod(c);
+//		for (BigInteger iterator = b; iterator.compareTo(BigInteger.valueOf(0)) == 0; iterator = iterator.subtract(BigInteger.ONE)) {
+//			
+//			
+//		}
 		return result.mod(c);
 	}
 
@@ -56,7 +57,7 @@ public class Calculation {
 
 	// Muss wieder gefixet werden
 	public boolean millerRabinTest(BigInteger aNumber, int k) {
-		BigInteger lPrimMinusOne = aNumber.add(BigInteger.valueOf(-1));
+		BigInteger lPrimMinusOne = aNumber.subtract(BigInteger.ONE);
 		while (lPrimMinusOne.mod(BigInteger.valueOf(2)).compareTo(BigInteger.valueOf(0)) == 0) {
 			lPrimMinusOne = lPrimMinusOne.divide(BigInteger.valueOf(2));
 		}
@@ -66,18 +67,24 @@ public class Calculation {
 		for (int lIterator = 0; lIterator < k; lIterator++) {
 			BigInteger lRandValue = BigInteger.valueOf(Math.abs(lBase.nextInt()));
 
-			BigInteger laValue = lRandValue.mod(aNumber).add(BigInteger.valueOf(-1)), temp = lPrimMinusOne;
+			BigInteger laValue = lRandValue.mod(aNumber).subtract(BigInteger.ONE), temp = lPrimMinusOne;
+			
+			System.out.println("laValue " + laValue);
 
 			BigInteger lModValue = aPowbModc(laValue, temp, aNumber);
+			BigInteger lModValue1 = laValue.modPow(temp, aNumber);
+			
+			System.out.println("Eigene: " + lModValue + " Vorgegebene: " + lModValue1);
 
-			while (temp.compareTo(aNumber.add(BigInteger.valueOf(-1))) != 0
+			//PROBLEM
+			while (temp.compareTo(aNumber.subtract(BigInteger.ONE)) != 0
 					&& lModValue.compareTo(BigInteger.valueOf(1)) != 0
-					&& lModValue.compareTo(aNumber.add(BigInteger.valueOf(-1))) != 0) {
+					&& lModValue.compareTo(aNumber.subtract(BigInteger.ONE)) != 0) {
+				
 				lModValue = aMulbModc(lModValue, lModValue, aNumber);
 				temp = temp.multiply(BigInteger.valueOf(2));
 			}
-			if (lModValue.compareTo(aNumber.add(BigInteger.valueOf(-1))) != 0
-					&& temp.mod(BigInteger.valueOf(2)).compareTo(BigInteger.valueOf(0)) == 0) {
+			if (lModValue.compareTo(aNumber = aNumber.subtract(BigInteger.ONE)) != 0 && temp.mod(BigInteger.valueOf(2)).compareTo(BigInteger.valueOf(0)) == 0) {
 				return false;
 			}
 		}
@@ -86,41 +93,47 @@ public class Calculation {
 
 	public boolean isPrime(BigInteger aNumber, int k) {
 		if (aNumber.compareTo(BigInteger.valueOf(1)) <= 0) {
+			
+			System.out.println("1");
+			
 			return false;
 		} else if (aNumber.compareTo(BigInteger.valueOf(3)) == 0) {
+			
+			System.out.println("2");
+			
 			return true;
 		} else if (aNumber.mod(BigInteger.valueOf(2)).compareTo(BigInteger.valueOf(0)) == 0) {
+			
+			System.out.println("3");
+			
 			return false;
 		} else {
+			
+			System.out.println("MillerRabin wird angewandt");
+			
 			return millerRabinTest(aNumber, k);
 		}
 	}
 
-	//BigInteger macht echt alles kaputt.
 	public BigInteger[] generateKeys(BigInteger aPrimeNumber, BigInteger anotherPrimeNumber) {
-		// Primzahl ggf. nochmal checken
 
 		BigInteger[] lKeys = new BigInteger[3];
-		//Wofür ist denn das?:)
-		// BigInteger lRsaModul = aPrimeNumber.multiply(anotherPrimeNumber);
 
 		BigInteger lPhiofN = PhiforDummies(aPrimeNumber, anotherPrimeNumber);
 
-		//den Schritt verstehe ich nicht:(
 		int lEnd = lPhiofN.divide(BigInteger.valueOf(2)).intValue();
 
-		//Ja, macht sinn
 		BigInteger lPublicKey = BigInteger.ZERO;
 		BigInteger lPrivateKey = BigInteger.ZERO;
 
-		//E sollte vielleicht anders gefunden werden
 		for (BigInteger iterator = BigInteger.valueOf(2); iterator.compareTo(lPhiofN) < 0; iterator = iterator.add(BigInteger.ONE)) {
 			if (calculateGGT(iterator, lPhiofN).compareTo(BigInteger.ONE) == 0) {
 				lPublicKey = iterator;
 				iterator = lPhiofN;
 			}
 		}
-		lPrivateKey = modInverse(lPublicKey, lPhiofN);
+		//lPrivateKey = modInverse(lPublicKey, lPhiofN);
+		lPrivateKey = lPublicKey.modInverse(lPhiofN);
 
 		lKeys[0] = lPublicKey;
 		lKeys[1] = lPrivateKey;
@@ -134,6 +147,7 @@ public class Calculation {
 	private BigInteger modInverse(BigInteger aNumber, BigInteger aMod) {
 		aNumber = aNumber.mod(aMod);
 		for (BigInteger iterator = BigInteger.ZERO; iterator.compareTo(aMod) < 0; iterator = iterator.add(BigInteger.ONE)) {
+			System.out.println(iterator);
 			if (aNumber.multiply(iterator).mod(aMod).compareTo(BigInteger.ONE) == 0) {
 				return iterator;
 			}
@@ -144,17 +158,11 @@ public class Calculation {
 	// Test-Main
 	public static void main(String[] args) {
 		Calculation calculation = new Calculation();
-		BigInteger[] keys = calculation.generateKeys(BigInteger.valueOf(11), BigInteger.valueOf(13));
-		System.out.println("e "+keys[0]);
-		System.out.println("d "+keys[1]);
-		System.out.println("phiofN "+keys[2]);
+//		BigInteger[] keys = calculation.generateKeys(BigInteger.valueOf(11), BigInteger.valueOf(13));
+//		System.out.println("e "+keys[0]);
+//		System.out.println("d "+keys[1]);
+//		System.out.println("phiofN "+keys[2]);
 		
-		// Große Zahlenbereiche, Gibt Primzahlen zwischen 2^32 und 2^64 aus,
-		// PrimzahlTest ist aber noch inkorrekt
-//		for(BigInteger i = BigInteger.valueOf(2).pow(64); i.compareTo(BigInteger.valueOf(2).pow(32))== 1; i = i.subtract(BigInteger.ONE)  ) {
-//			if(calculation.isPrime(i, 10)) {
-//				System.out.println("Primzahl " + i);
-//			}
-//		}
+		System.out.println(calculation.isPrime(BigInteger.valueOf(11), 10));
 	}
 }
