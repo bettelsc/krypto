@@ -1,0 +1,69 @@
+//for the creation of the private key
+
+/**
+	 * Extended Euclidean Algorithm function: a * x + b * y = greatestCommonDivisor(a, b)
+	 * @param aNumber = a
+	 * @param aPhiofN = b
+	 * @return ResultSet: 1st Entry is the Multiplicative Inverse, if the 3rd equals 1,
+	 * 		              2nd Entry is a check number, which needs to be 0
+	 * 
+	 * @author Constantin Bettels
+	 */
+	public BigInteger[] extendedEuclid(BigInteger aNumber, BigInteger aPhiofN)
+	{
+		BigInteger x = ZERO;
+		BigInteger y = ZERO;
+		//Copies for the arithmetical action: xCopy - quotient * x , equivalent for y
+		BigInteger xCopy = ONE;
+		BigInteger yCopy = ZERO;
+		
+		//Result Array
+		BigInteger[] resultSet = new BigInteger[3];
+		
+		while(!aPhiofN.equals(ZERO))
+		{
+			//quotient remainder Array storages the remaining values for next loop
+			BigInteger[] qRem = aNumber.divideAndRemainder(aPhiofN);
+			BigInteger quotient = qRem[0];
+			
+			//temp-Value to not lose information
+			BigInteger temp = aNumber;
+			aNumber = aPhiofN;
+			aPhiofN = qRem[1];
+			
+			temp = x;
+			x = xCopy.subtract(quotient.multiply(x));
+			xCopy = temp;
+			
+			temp = y;
+			y = yCopy.subtract(quotient.multiply(y));
+			yCopy = temp;
+		}
+		
+		resultSet[0] = xCopy;
+		resultSet[1] = yCopy;
+		resultSet[2] = aNumber;
+		
+		//everything we need from this function to call our inverseFunction
+		return resultSet;
+	}
+  /**
+	 * Function could easily be integrated in the euclidean algorithm itself, but I thought it would 
+	 * be a better style, doing it this way.
+	 * @param extendedEuclideanAlgorithmResult: storages every value that is important / maybe will be
+	 * @return the multiplicative Inverse of the given number from the euclidean method
+	 */
+  public BigInteger calculateInverse(BigInteger[] extendedEuclideanAlgorithmResult)
+	{
+		//if the gcd(a,b) = 1, it returns the inverse
+		if (extendedEuclideanAlgorithmResult[2].equals(ONE))
+		{
+			return extendedEuclideanAlgorithmResult[0];
+		}
+		//An error message and 0 as the result
+		else
+		{
+			System.out.println("There is no multiplicative Inverse!");
+			return ZERO;
+		}
+	}
