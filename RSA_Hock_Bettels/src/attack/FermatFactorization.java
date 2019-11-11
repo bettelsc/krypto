@@ -2,23 +2,24 @@ package attack;
 import java.math.BigInteger;
 import math.Calculation;
 
-public class FermatFactorization {
-	
-	public BigInteger[] getKeys(BigInteger n) {
-		
+public class FermatFactorization
+{
+	public BigInteger[] getKeys(BigInteger n)
+	{	
 		BigInteger x = BigInteger.valueOf((long) Math.sqrt(n.doubleValue()+1));
 		BigInteger r = x.multiply(x).subtract(n);
 		
-		for(int i = 0; i < 8; i++) {
+		for(int i = 0; i < 8; i++)
+		{
 			double a = Math.sqrt(r.doubleValue());
 			a = Math.round(a);
-			if(r.compareTo(BigInteger.valueOf((long) (a*a))) == 0) {
+			if(r.compareTo(BigInteger.valueOf((long) (a*a))) == 0)
+			{
 				break;
 			}
 			x = x.add(BigInteger.ONE);
 			r = x.multiply(x).subtract(n);
 		}
-		
 		//wurzel aus r ist der gesuchte y-wert
 		BigInteger y = BigInteger.valueOf((long) Math.sqrt(r.doubleValue()));
 		
