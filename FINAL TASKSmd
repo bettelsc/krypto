@@ -1,0 +1,9 @@
+FINAL TASKS ARE AS FOLLOWS:
+1. Wenn ich im Menü bin und einen der Punkte eingebe, muss der entsprechende Wert auch angezeigt werden,
+bei uns ploppt er kurz auf und verschwindet dann wieder
+2. Exception Handling der Eingabe, wenn das ganze bei einer fehlerhaften eingabe abbricht, ist das mit sicherheit ein K.O
+3. Erzeugung zufälliger Zahlen, bzw. dem Nutzer die möglichkeit geben, vom System zwei Primzahlen zu erstellen lassen
+4. Wenn der Nutzer den öffentlichen Exponenten falsch eingibt, 
+sollten wir wie bei dem punkt zuvor die möglichkeit der automatischen erstellung dieses wertes ermöglichen
+5. Kommentare (am besten jeder seine Funktionen)
+6. Bericht (Wäre gut wenn du da auch was schreibt, ich kann das am Ende aber gerne mergen)
